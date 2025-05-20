@@ -5,18 +5,32 @@ import {
   PiNumberCircleTwoFill,
   PiNumberCircleThreeFill,
 } from "react-icons/pi";
-import { FaFacebookF, FaRegObjectGroup } from "react-icons/fa";
+import { FaFacebookF } from "react-icons/fa";
 
 import { FaGoogle } from "react-icons/fa";
 import { useState } from "react";
+import { post } from "../utility/api";
 export const RegisterPage = () => {
   const [registerSteps, setRegisterSteps] = useState(1);
+  const [formData, setFormData] = useState({
+    name: "",
+    password: "",
+    email: "",
+  });
 
   const handleLogin = (e) => {
     e.preventDefault();
 
     if (registerSteps < 3) {
       setRegisterSteps((prev) => prev + 1);
+    } else {
+      try {
+        post("/v1/register",formData)
+        console.log("good status ");
+        
+      }catch(error){
+        console.log("i think something wrong happend ",error)
+      }
     }
   };
   return (
@@ -36,12 +50,21 @@ export const RegisterPage = () => {
               <PiNumberCircleOneFill className="text-xl text-[var(--main-purple)]  mb-2" />
               <div className="w-1/3 bg-[#C3C3C3] h-[1px] rounded-full" />
 
-              <PiNumberCircleTwoFill className={`text-xl ${registerSteps >= 2 ? "text-[var(--main-purple)]" : "text-[#C3C3C3]"} mb-2`} />
-              <div
-                className={`w-1/3 bg-[#C3C3C3] h-[1px] rounded-full`}
-                
+              <PiNumberCircleTwoFill
+                className={`text-xl ${
+                  registerSteps >= 2
+                    ? "text-[var(--main-purple)]"
+                    : "text-[#C3C3C3]"
+                } mb-2`}
               />
-              <PiNumberCircleThreeFill className={`text-xl ${registerSteps == 3 ? "text-[var(--main-purple)]" : "text-[#C3C3C3]"} mb-2`} />
+              <div className={`w-1/3 bg-[#C3C3C3] h-[1px] rounded-full`} />
+              <PiNumberCircleThreeFill
+                className={`text-xl ${
+                  registerSteps == 3
+                    ? "text-[var(--main-purple)]"
+                    : "text-[#C3C3C3]"
+                } mb-2`}
+              />
             </div>
 
             <div className="flex  items-center justify-between   w-full ">
@@ -103,6 +126,11 @@ export const RegisterPage = () => {
           >
             Next
           </motion.button>
+          <span onClick={()=>{
+            if(registerSteps != 0){
+              setRegisterSteps((prev) => prev -1)
+            }
+          }} className="text-center cursor-pointer text-[var(--main-purple)]">Prev</span>
           <div className="mt-10">
             <div className="flex items-center justify-center gap-5">
               <div className="w-1/3 bg-[#C3C3C3] h-[1px] rounded-full" />
