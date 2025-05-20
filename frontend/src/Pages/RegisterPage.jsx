@@ -33,12 +33,15 @@ export const RegisterPage = () => {
 
           <div className="flex mb-10 flex-col items-center  w-full">
             <div className="flex  items-center justify-center  w-full ">
-              <PiNumberCircleOneFill className="text-xl  mb-2" />
+              <PiNumberCircleOneFill className="text-xl text-[var(--main-purple)]  mb-2" />
               <div className="w-1/3 bg-[#C3C3C3] h-[1px] rounded-full" />
 
-              <PiNumberCircleTwoFill className="text-xl text-[#C3C3C3] mb-2" />
-              <div className="w-1/3 bg-[#C3C3C3] h-[1px] rounded-full" />
-              <PiNumberCircleThreeFill className="text-xl text-[#C3C3C3] mb-2" />
+              <PiNumberCircleTwoFill className={`text-xl ${registerSteps >= 2 ? "text-[var(--main-purple)]" : "text-[#C3C3C3]"} mb-2`} />
+              <div
+                className={`w-1/3 bg-[#C3C3C3] h-[1px] rounded-full`}
+                
+              />
+              <PiNumberCircleThreeFill className={`text-xl ${registerSteps == 3 ? "text-[var(--main-purple)]" : "text-[#C3C3C3]"} mb-2`} />
             </div>
 
             <div className="flex  items-center justify-between   w-full ">
@@ -48,52 +51,55 @@ export const RegisterPage = () => {
               <span className="text-sm">Create your password</span>
             </div>
           </div>
-
-          <AnimatePresence>
-            {registerSteps === 1 && (
-              <div className="flex flex-col mb-1  ">
-                <label htmlFor="email" className="text-[#949494] mb-1">
-                  What's your email ?
-                </label>
-                <input
-                  type="email"
+          {stepsContent
+            .filter((item) => item.step == registerSteps)
+            .map((item) => (
+              <div key={item.step} className="flex flex-col mb-1  ">
+                <motion.label
+                  initial={{
+                    x: -20,
+                    opacity: 0,
+                  }}
+                  animate={{
+                    x: 0,
+                    opacity: 1,
+                  }}
+                  transition={{
+                    type: "tween",
+                    ease: "easeInOut",
+                  }}
+                  htmlFor="email"
+                  className="text-[#949494] mb-1"
+                >
+                  {item.label}
+                </motion.label>
+                <motion.input
+                  initial={{
+                    x: -20,
+                    opacity: 0,
+                  }}
+                  animate={{
+                    x: 0,
+                    opacity: 1,
+                  }}
+                  exit={{
+                    y: 20,
+                  }}
+                  transition={{
+                    type: "tween",
+                    ease: "easeInOut",
+                    delay: 0.1,
+                  }}
+                  type={item.type}
                   className="border-2 border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-[var(--main-purple)]"
-                  name="email"
-                  placeholder="Enter your email address..."
+                  name={item.name}
+                  placeholder={item.placeholder}
                 />
               </div>
-            )}
-            {registerSteps === 2 && (
-              <div className="flex flex-col mb-1  ">
-                <label htmlFor="email" className="text-[#949494] mb-1">
-                  What's your Name ?
-                </label>
-                <input
-                  type="email"
-                  className="border-2 border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-[var(--main-purple)]"
-                  name="email"
-                  placeholder="Enter your Name ..."
-                />
-              </div>
-            )}
-            {registerSteps === 3 && (
-              <div className="flex flex-col mb-1  ">
-                <label htmlFor="email" className="text-[#949494] mb-1">
-                  Create your Password ?
-                </label>
-                <input
-                  type="pasword"
-                  className="border-2 border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-[var(--main-purple)]"
-                  name="password"
-                  placeholder="Enter your Password ..."
-                />
-              </div>
-            )}
-          </AnimatePresence>
-
+            ))}
           <motion.button
             whileTap={{ scale: 0.9 }}
-            className=" bg-[#C3C3C3] cursor-pointer rounded-full px-3 py-3 mt-5"
+            className=" bg-[#C3C3C3] hover:bg-[var(--main-purple)] transition-all hover:text-white duration-300 cursor-pointer rounded-full px-3 py-3 mt-5"
           >
             Next
           </motion.button>
@@ -124,3 +130,27 @@ export const RegisterPage = () => {
     </div>
   );
 };
+
+const stepsContent = [
+  {
+    step: 1,
+    label: "What's your email?",
+    name: "email",
+    type: "email",
+    placeholder: "Enter your email address...",
+  },
+  {
+    step: 2,
+    label: "What's your name?",
+    name: "name",
+    type: "text",
+    placeholder: "Enter your name...",
+  },
+  {
+    step: 3,
+    label: "Create your password",
+    name: "password",
+    type: "password",
+    placeholder: "Enter your password...",
+  },
+];
