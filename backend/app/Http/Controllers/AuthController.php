@@ -15,8 +15,8 @@ class AuthController extends Controller
     {
         $validated  = Validator::make($r->all(), [
             'name' => "required",
-            'password' => "required",
-            'email' => "required"
+            'password' => "required|",
+            'email' => "required|unique"
 
         ]);
         if ($validated->fails()) {
@@ -26,9 +26,9 @@ class AuthController extends Controller
         $validatedData = $validated->validated();
 
         $user = new User();
-        $user->name = $validated['name'];
-        $user->email = $validated['email'];
-        $user->password = Hash::make($validated['password']);
+        $user->name = $validatedData['name'];
+        $user->email = $validatedData['email'];
+        $user->password = Hash::make($validatedData['password']);
 
         $user->save();
 

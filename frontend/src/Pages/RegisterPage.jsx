@@ -10,8 +10,12 @@ import { FaFacebookF } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import { useState } from "react";
 import { post } from "../utility/api";
+import { LoadingButton } from "../components/LoadingButton";
+import { Toaster, toast } from "sonner";
 export const RegisterPage = () => {
   const [registerSteps, setRegisterSteps] = useState(1);
+  const [isCompleted, setIsCompleted] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     password: "",
@@ -20,21 +24,33 @@ export const RegisterPage = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     if (registerSteps < 3) {
       setRegisterSteps((prev) => prev + 1);
     } else {
-      try {
-        post("/v1/register",formData)
-        console.log("good status ");
-        
-      }catch(error){
-        console.log("i think something wrong happend ",error)
-      }
+      post("/v1/register", formData)
+        .then((response) => {
+          console.log("good ! ", response);
+        })
+        .catch((er) => {
+          if (er.response?.data?.error) {
+            const validationError = er.response.data.error;
+            Object.entries(validationError).forEach(([field, message]) => {
+              toast.error(message);
+            });
+          }
+        });
     }
+    setIsLoading(false);
+  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
   return (
     <div className="w-screen h-screen flex justify-center items-center ">
+      <Toaster position="top-right" richColors />
       <div className="p-14   w-1/3">
         <form className="flex  flex-col gap-2 " onSubmit={handleLogin}>
           <h1 className="text-3xl text-center">Create an account</h1>
@@ -113,7 +129,9 @@ export const RegisterPage = () => {
                     ease: "easeInOut",
                     delay: 0.1,
                   }}
+                  required
                   type={item.type}
+                  onChange={handleChange}
                   className="border-2 border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-[var(--main-purple)]"
                   name={item.name}
                   placeholder={item.placeholder}
@@ -124,13 +142,18 @@ export const RegisterPage = () => {
             whileTap={{ scale: 0.9 }}
             className=" bg-[#C3C3C3] hover:bg-[var(--main-purple)] transition-all hover:text-white duration-300 cursor-pointer rounded-full px-3 py-3 mt-5"
           >
-            Next
+            {isLoading ? <LoadingButton /> : "Next"}
           </motion.button>
-          <span onClick={()=>{
-            if(registerSteps != 0){
-              setRegisterSteps((prev) => prev -1)
-            }
-          }} className="text-center cursor-pointer text-[var(--main-purple)]">Prev</span>
+          <span
+            onClick={() => {
+              if (registerSteps != 0) {
+                setRegisterSteps((prev) => prev - 1);
+              }
+            }}
+            className="text-center cursor-pointer text-[var(--main-purple)]"
+          >
+            Prev
+          </span>
           <div className="mt-10">
             <div className="flex items-center justify-center gap-5">
               <div className="w-1/3 bg-[#C3C3C3] h-[1px] rounded-full" />
