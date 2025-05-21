@@ -1,17 +1,27 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState } from "react";
-
-
-
-
+import { post } from "../utility/api";
 const LoginPage = () => {
-  const [email,setEmail] = useState("")
-  const [password,setPassword] = useState("")
+  const [passwordValue, setPassword] = useState("");
+  const [emailValue, setEmailValue] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    post("/v1/login", { email: emailValue, password: passwordValue })
+      .then((resposne) => {
+        console.log(resposne);
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+  };
+
   return (
     <div className="w-screen h-screen flex justify-center items-center ">
       <div className="p-14  rounded-2xl  ">
-        <form className="flex  flex-col gap-2 ">
+        <form className="flex  flex-col gap-2 " onSubmit={handleSubmit}>
           <h1 className="text-4xl text-center">Good to See You Again!</h1>
           <p className="text-gray-500 text-center mb-10">
             Dont have an account ?{" "}
@@ -24,9 +34,9 @@ const LoginPage = () => {
               Email
             </label>
             <input
-            onChange={(e )=>{
-              setEmail(e.target.value)
-            }}
+              onChange={(e) => {
+                setEmailValue(e.target.value);
+              }}
               type="email"
               id="email"
               className="border-2 border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-[var(--main-purple)]"
@@ -40,9 +50,9 @@ const LoginPage = () => {
               Passsword
             </label>
             <input
-            onChange={(e )=>{
-              setPassword(e.target.value)
-            }}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               type="password"
               id="email"
               className="border-2 border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-[var(--main-purple)]"
@@ -51,7 +61,7 @@ const LoginPage = () => {
               placeholder="Enter your password..."
             />
           </div>
-         
+
           <motion.button
             whileTap={{ scale: 0.8 }}
             className=" bg-[#C3C3C3] hover:bg-[var(--main-purple)] transition-all hover:text-white duration-300 cursor-pointer rounded-full px-3 py-3 mt-5"
