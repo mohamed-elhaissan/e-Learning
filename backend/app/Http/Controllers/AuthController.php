@@ -15,8 +15,8 @@ class AuthController extends Controller
     {
         $validated  = Validator::make($r->all(), [
             'name' => "required",
-            'password' => "required|",
-            'email' => "required|unique"
+            'password' => 'required|min:6',
+            'email' => "required|email|unique:users"
 
         ]);
         if ($validated->fails()) {
@@ -39,11 +39,11 @@ class AuthController extends Controller
         ]);
     }
 
-    // public function Login()
-    // {
-    //     return response()->json([
-
-    //         "success" => "hellThere"
-    //     ], 200);
-    // }
+    public function Login(Request $r){
+        $validator = Validator::make($r->all(),[
+            "email" => "required",
+            "password" => "required",
+        ]);
+        
+    }
 }

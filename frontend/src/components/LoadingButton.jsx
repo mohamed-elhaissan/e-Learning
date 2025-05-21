@@ -20,15 +20,15 @@ export const LoadingButton = () => {
       className="flex items-center justify-center gap-2"
     >
       <motion.div
-        className="w-3 h-3 my-2 rounded-full bg-red-700"
+        className="w-3 h-3 my-2 rounded-full bg-white"
         variants={dotVariants}
       />
       <motion.div
-        className="w-3 h-3 rounded-full bg-red-700"
+        className="w-3 h-3 rounded-full bg-white"
         variants={dotVariants}
       />
       <motion.div
-        className="w-3 h-3 rounded-full bg-red-700"
+        className="w-3 h-3 rounded-full bg-white"
         variants={dotVariants}
       />
     </motion.div>

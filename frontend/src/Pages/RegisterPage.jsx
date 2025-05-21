@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   PiNumberCircleOneFill,
@@ -16,6 +16,8 @@ export const RegisterPage = () => {
   const [registerSteps, setRegisterSteps] = useState(1);
   const [isCompleted, setIsCompleted] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowpassword] = useState(false);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     password: "",
@@ -24,13 +26,18 @@ export const RegisterPage = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    setIsLoading(true);
     if (registerSteps < 3) {
       setRegisterSteps((prev) => prev + 1);
     } else {
+      console.log(formData);
+
+      setIsLoading(true);
       post("/v1/register", formData)
         .then((response) => {
-          console.log("good ! ", response);
+          toast.success("Registration complete! Redirecting you to login...");
+          setTimeout(() => {
+            navigate("/login");
+          }, 1200);
         })
         .catch((er) => {
           if (er.response?.data?.error) {
@@ -39,24 +46,25 @@ export const RegisterPage = () => {
               toast.error(message);
             });
           }
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
-    setIsLoading(false);
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
   return (
-    <div className="w-screen h-screen flex justify-center items-center ">
+    <div className="w-screen h-screen flex justify-center items-center  ">
       <Toaster position="top-right" richColors />
-      <div className="p-14   w-1/3">
+      <div className="p-14   md:mx-20 lg:w-1/2  2xl:w-1/3  w-full">
         <form className="flex  flex-col gap-2 " onSubmit={handleLogin}>
           <h1 className="text-3xl text-center">Create an account</h1>
           <p className="text-gray-500 text-center mb-10">
             Already have an account ?{" "}
-            <Link className="text-black" to={"nowere"}>
+            <Link className="text-black" to={"/login"}>
               Log in{" "}
             </Link>
           </p>
@@ -139,21 +147,39 @@ export const RegisterPage = () => {
               </div>
             ))}
           <motion.button
-            whileTap={{ scale: 0.9 }}
+            whileTap={{ scale: 0.8 }}
             className=" bg-[#C3C3C3] hover:bg-[var(--main-purple)] transition-all hover:text-white duration-300 cursor-pointer rounded-full px-3 py-3 mt-5"
           >
             {isLoading ? <LoadingButton /> : "Next"}
           </motion.button>
-          <span
-            onClick={() => {
-              if (registerSteps != 0) {
-                setRegisterSteps((prev) => prev - 1);
-              }
-            }}
-            className="text-center cursor-pointer text-[var(--main-purple)]"
-          >
-            Prev
-          </span>
+          {registerSteps !== 1 && (
+            <motion.span
+              initial={{
+                y: -10,
+                opacity: 0,
+              }}
+              animate={{
+                y: 0,
+                opacity: 1,
+              }}
+              exit={{
+                y: 20,
+              }}
+              transition={{
+                type: "tween",
+                ease: "easeInOut",
+                delay: 0.1,
+              }}
+              onClick={() => {
+                if (registerSteps >= 0) {
+                  setRegisterSteps((prev) => prev - 1);
+                }
+              }}
+              className="text-center cursor-pointer text-[var(--main-purple)]"
+            >
+              Prev
+            </motion.span>
+          )}
           <div className="mt-10">
             <div className="flex items-center justify-center gap-5">
               <div className="w-1/3 bg-[#C3C3C3] h-[1px] rounded-full" />
@@ -163,13 +189,13 @@ export const RegisterPage = () => {
             </div>
             <div className="flex justify-center items-center gap-5 ">
               <motion.button
-                whileTap={{ scale: 0.9 }}
+                whileTap={{ scale: 0.8 }}
                 className="rounded-full border text-sm cursor-pointer flex justify-center items-center transition-all duration-300 hover:bg-gradient-to-r hover:from-[#4285F4] hover:via-[#34A853] hover:via-[#FBBC05] hover:to-[#EA4335] hover:text-white px-3 py-3 mt-5"
               >
                 <FaGoogle className="text-xl ml-2" />
               </motion.button>
               <motion.button
-                whileTap={{ scale: 0.9 }}
+                whileTap={{ scale: 0.8 }}
                 className=" rounded-full overflow-hidden cursor-pointer border text-sm flex transition-all duration-300 hover:bg-[#1877F2] hover:text-white px-3 py-3 mt-5"
               >
                 <FaFacebookF className="text-xl ml-2" />
