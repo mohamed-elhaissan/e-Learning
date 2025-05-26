@@ -2,16 +2,17 @@ import { Link } from "react-router-dom";
 import { GoPlus } from "react-icons/go";
 import { cubicBezier, motion } from "framer-motion";
 import { useState } from "react";
-import shape1 from "../assets/shape.svg";
 import light from "../assets/light.svg";
 import shape3 from "../assets/shap3.svg";
 import shape4 from "../assets/Group 134.svg";
+import smile from "../assets/smile.svg";
+import earth from "../assets/Earth.svg";
 const Home = () => {
   const [isHovered, setIsHovered] = useState(false);
   return (
     <div>
       <header className="flex justify-between mx-10 items-center p-4 ">
-        <img src={light} className="absolute right-0 top-0" />
+        <img src={light} className="absolute right-0 z-10 top-0" />
         <h1 className="text-3xl  bg-gradient-to-r from-[var(--main-purple)] font-semibold to-purple-600 text-transparent bg-clip-text">
           E-learning
         </h1>
@@ -57,17 +58,37 @@ const Home = () => {
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
-        className="h-screen flex-col  flex justify-center items-center "
+        className="h-screen relative bg-black flex-col mb-20 overflow-hidden rounded-4xl mx-10 p-20 flex justify-center items-center "
       >
+        <img src={earth} className=" absolute -bottom-1/2 scale-200" alt="" />
         <h2 className="text-9xl  relative w-full h-full justify-center flex flex-col font-bold ">
-          <span className="self-start">Unlock the</span>
-          <span className=" mx-2 flex self-center flex-col mt-2  bg-gradient-to-r from-[var(--main-purple)]  to-purple-600 text-transparent bg-clip-text ">
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="self-start text-white  tracking-tight"
+          >
+            Unlock the
+          </motion.span>
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className=" self-center  tracking-tight  bg-gradient-to-r from-[var(--main-purple)]  to-purple-600 text-transparent bg-clip-text "
+          >
             Future
-          </span>{" "}
-          <span className="text-[#ACAFBA] self-end">of education</span>
+          </motion.span>{" "}
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className=" self-end  text-white tracking-tight"
+          >
+            of education
+          </motion.span>
         </h2>
       </motion.section>
-      <section className=" h-screen flex items-center gap-30  flex-col">
+      <section className=" h-screen flex items-center gap-30 mb-20  flex-col">
         <h2 className="text-7xl  flex flex-col gap-2 ">
           <motion.span
             initial={{ opacity: 0, y: 50 }}
@@ -158,18 +179,60 @@ const Home = () => {
           </motion.span>
         </div>
       </section>
-      <section className="h-screen flex items-center justify-center">
-        <motion.h2
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.5,
-            delay: 0.2,
-          }}
-          className="text-7xl text-center"
-        >
-          Join us and start your learning journey today!
-        </motion.h2>
+      <section
+        className="mt-10 bg-black p-20  mx-10 rounded-4xl
+       mb-20 relative h-screen flex items-center gap-30  flex-col"
+      >
+        <h2 className="text-7xl  flex flex-col gap-2 ">
+          <motion.span
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-[#ACAFBA]"
+          >
+            Benefits That
+          </motion.span>
+          <motion.span
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex gap-3 text-white"
+          >
+            Elvate
+            <motion.span
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="text-[#ACAFBA] flex items-center "
+            >
+              Your <img src={shape3} alt="" />{" "}
+            </motion.span>
+          </motion.span>
+          <motion.span
+          className="text-white"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
+            Teaching <span className="text-[#ACAFBA]">Experience</span>
+          </motion.span>
+          <motion.span
+            initial={{ opacity: 0, y: 50 }}
+            className="text-xs text-white"
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+          >
+            be The Change
+          </motion.span>
+        </h2>
+        <motion.img
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          src={smile}
+          className="absolute top-0 left-0 w-80 h-80 object-cover"
+          alt="Shape"
+        />
       </section>
     </div>
   );
