@@ -4,11 +4,10 @@
   --main-purple: rgb(74, 37, 225);
   --main-black: #120f43;
   --main-gray: #fdfeff;
-  --light-purple : #603CFF;
-  
+  --light-purple: #603cff;
 }
 * {
   box-sizing: border-box;
-   font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   /* font-family: 'Poppins', sans-serif; */
 }
