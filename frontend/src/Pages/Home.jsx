@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { GoPlus } from "react-icons/go";
-import { motion } from "framer-motion";
+import { cubicBezier, motion } from "framer-motion";
 import { useState } from "react";
 import shape1 from "../assets/shape.svg";
 import light from "../assets/light.svg";
@@ -54,17 +54,17 @@ const Home = () => {
         </div>
       </header>
       <motion.section
-        initial={{ opacity: 0, y: 150 }}
+        initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.5, ease: "easeIn" }}
         className="h-screen flex-col  flex justify-center items-center "
       >
-        <h2 className="text-7xl  relative w-full flex items-center justify-center ">
-          Unlock the{" "}
-          <span className=" mx-2 flex flex-col mt-2  bg-gradient-to-r from-[var(--main-purple)] font-semibold to-purple-600 text-transparent bg-clip-text ">
-            Future <img className="block w-full " src={shape1} />
+        <h2 className="text-9xl  relative w-full h-full justify-center flex flex-col font-bold ">
+          <span className="self-start">Unlock the</span>
+          <span className=" mx-2 flex self-center flex-col mt-2  bg-gradient-to-r from-[var(--main-purple)]  to-purple-600 text-transparent bg-clip-text ">
+            Future
           </span>{" "}
-          of education
+          <span className="text-[#ACAFBA] self-end">of education</span>
         </h2>
       </motion.section>
       <section className=" h-screen flex items-center gap-30  flex-col">
@@ -127,16 +127,20 @@ const Home = () => {
             10+ <span className="text-[#CAC9CE] text-sm">Instructors</span>
           </motion.span>
           <motion.img
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
+            animate={{
+              y: [0, -20, 0],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+            }}
             src={shape4}
             className=" scale-150  w-80 h-80 object-cover"
             alt="Shape"
           />
 
           <motion.span
-            initial={{ opacity: 0, y: 50 }} 
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.7 }}
             className="text-2xl bg-[#E9E9EB] w-50 h-50 rounded-full flex flex-col items-center justify-center text-center"
@@ -158,7 +162,10 @@ const Home = () => {
         <motion.h2
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{
+            duration: 0.5,
+            delay: 0.2,
+          }}
           className="text-7xl text-center"
         >
           Join us and start your learning journey today!
